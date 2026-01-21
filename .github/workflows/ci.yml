@@ -33,8 +33,13 @@ jobs:
       - name: Download dependencies
         run: go mod download
 
-      - name: Run tests
+      - name: Run tests (Linux)
+        if: runner.os == 'Linux'
         run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Run tests (Windows/Mac)
+        if: runner.os != 'Linux'
+        run: go test -v ./...
 
   lint:
     name: Lint
