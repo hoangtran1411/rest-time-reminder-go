@@ -1,8 +1,10 @@
+// Package updater provides self-updating functionality for the application.
 package updater
 
 import (
 	"fmt"
 	"log/slog"
+
 	"github.com/blang/semver"
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
 )
@@ -24,7 +26,7 @@ func Update(currentVersion string, repo string) error {
 	if latest.Version.Equals(v) {
 		slog.Info("current binary is the latest version", "version", currentVersion)
 	} else {
-		slog.Info("successfully updated to new version", 
+		slog.Info("successfully updated to new version",
 			"new_version", latest.Version,
 			"release_notes", latest.ReleaseNotes,
 		)

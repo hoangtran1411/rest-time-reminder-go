@@ -6,18 +6,17 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/kardianos/service"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/audio"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/config"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/notification"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/scheduler"
+	"github.com/kardianos/service"
 )
 
 // Service wraps the application for running as a system service.
 type Service struct {
 	config *config.Config
 	svc    service.Service
-	cancel context.CancelFunc
 }
 
 // program implements the service.Interface
@@ -132,7 +131,7 @@ func (s *Service) status() error {
 }
 
 // Start is called when the service starts
-func (p *program) Start(s service.Service) error {
+func (p *program) Start(_ service.Service) error {
 	slog.Info("service starting...")
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -155,7 +154,7 @@ func (p *program) Start(s service.Service) error {
 }
 
 // Stop is called when the service stops
-func (p *program) Stop(s service.Service) error {
+func (p *program) Stop(_ service.Service) error {
 	slog.Info("service stopping...")
 
 	if p.cancel != nil {

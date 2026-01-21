@@ -45,7 +45,7 @@ func (p *Player) Play() error {
 	if err != nil {
 		return fmt.Errorf("failed to load sound: %w", err)
 	}
-	defer streamer.Close()
+	defer func() { _ = streamer.Close() }()
 
 	// Initialize speaker if not already done
 	if !p.initialized {
@@ -87,7 +87,7 @@ func (p *Player) loadFromFile(path string) (beep.StreamSeekCloser, beep.Format, 
 
 	streamer, format, err := wav.Decode(f)
 	if err != nil {
-		f.Close()
+		_ = f.Close()
 		return nil, beep.Format{}, fmt.Errorf("failed to decode WAV: %w", err)
 	}
 

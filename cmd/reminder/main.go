@@ -11,19 +11,19 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/spf13/cobra"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/audio"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/config"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/notification"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/scheduler"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/service"
 	"github.com/hoangtran1411/rest-time-reminder-go/internal/updater"
+	"github.com/spf13/cobra"
 )
 
 var (
 	// Version information (set via ldflags during build)
 	// Default to 0.0.0 for dev builds to allow semantic version parsing
-	version   = "0.0.0" 
+	version   = "0.0.0"
 	commit    = "none"
 	buildDate = "unknown"
 
@@ -60,11 +60,11 @@ commands to install and manage as a system service.`,
 	rootCmd.AddCommand(&cobra.Command{
 		Use:   "version",
 		Short: "Print version information",
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, _ []string) {
 			fmt.Printf("RestTimeReminder %s\n", version)
 			fmt.Printf("  Commit: %s\n", commit)
 			fmt.Printf("  Built: %s\n", buildDate)
-			
+
 			// Check for updates
 			if latest, found, err := updater.Check(version, repoSlug); err == nil && found {
 				fmt.Printf("\nUpdate available: %s\n", latest.Version)
@@ -77,7 +77,7 @@ commands to install and manage as a system service.`,
 	rootCmd.AddCommand(&cobra.Command{
 		Use:   "update",
 		Short: "Update to the latest version",
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, _ []string) {
 			if err := updater.Update(version, repoSlug); err != nil {
 				slog.Error("update failed", "error", err)
 				os.Exit(1)
@@ -90,27 +90,27 @@ commands to install and manage as a system service.`,
 		&cobra.Command{
 			Use:   "install",
 			Short: "Install as system service",
-			Run:   func(cmd *cobra.Command, args []string) { runServiceCommand("install") },
+			Run:   func(_ *cobra.Command, _ []string) { runServiceCommand("install") },
 		},
 		&cobra.Command{
 			Use:   "uninstall",
 			Short: "Remove system service",
-			Run:   func(cmd *cobra.Command, args []string) { runServiceCommand("uninstall") },
+			Run:   func(_ *cobra.Command, _ []string) { runServiceCommand("uninstall") },
 		},
 		&cobra.Command{
 			Use:   "start",
 			Short: "Start the service",
-			Run:   func(cmd *cobra.Command, args []string) { runServiceCommand("start") },
+			Run:   func(_ *cobra.Command, _ []string) { runServiceCommand("start") },
 		},
 		&cobra.Command{
 			Use:   "stop",
 			Short: "Stop the service",
-			Run:   func(cmd *cobra.Command, args []string) { runServiceCommand("stop") },
+			Run:   func(_ *cobra.Command, _ []string) { runServiceCommand("stop") },
 		},
 		&cobra.Command{
 			Use:   "status",
 			Short: "Show service status",
-			Run:   func(cmd *cobra.Command, args []string) { runServiceCommand("status") },
+			Run:   func(_ *cobra.Command, _ []string) { runServiceCommand("status") },
 		},
 	)
 
@@ -120,7 +120,7 @@ commands to install and manage as a system service.`,
 }
 
 // runApp is the main application logic for console mode
-func runApp(cmd *cobra.Command, args []string) {
+func runApp(_ *cobra.Command, _ []string) {
 	// Setup logging
 	logLevel := slog.LevelInfo
 	if verbose {
