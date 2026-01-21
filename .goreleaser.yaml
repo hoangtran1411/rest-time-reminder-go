@@ -1,23 +1,75 @@
 version: 2
 
 builds:
-  - main: ./cmd/reminder
+  - id: rest-time-reminder
+    main: ./cmd/reminder
     binary: rest-time-reminder
-    goos: [linux, windows, darwin]
-    goarch: [amd64, arm64]
+    env:
+      - CGO_ENABLED=1
+    goos:
+      - linux
+      # Windows/Darwin builds with CGO require cross-compiler toolchains on Linux.
+      # Uncomment below lines only if you have configured cross-compilers or use goreleaser-cross image.
+      # - windows
+      # - darwin
+    goarch:
+      - amd64
+      - arm64
     ldflags:
-      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}}
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.buildDate={{.Date}}
 
 archives:
-  - format: tar.gz
+  - id: default
+    format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
     format_overrides:
       - goos: windows
         format: zip
+    files:
+      - LICENSE
+      - README.md
+      - config.yaml
 
 checksum:
   name_template: 'checksums.txt'
 
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
 changelog:
   sort: asc
+  use: github
   filters:
-    exclude: ['^docs:', '^test:', '^chore:']
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - Merge pull request
+      - Merge branch
+  groups:
+    - title: Features
+      regexp: '^feat:'
+      order: 0
+    - title: Bug Fixes
+      regexp: '^fix:'
+      order: 1
+    - title: Performance
+      regexp: '^perf:'
+      order: 2
+    - title: Others
+      order: 999
+
+release:
+  github:
+    owner: hoangtran1411
+    name: rest-time-reminder-go
+  draft: false
+  prerelease: auto
+  name_template: "v{{.Version}}"

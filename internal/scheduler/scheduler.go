@@ -7,7 +7,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/yourusername/rest-time-reminder-go/internal/config"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/config"
 )
 
 // Player defines the interface for audio playback.

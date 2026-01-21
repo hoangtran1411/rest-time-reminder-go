@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        go: ['1.21', '1.22']
+        go: ['1.22']
 
     steps:
       - name: Checkout code
@@ -24,23 +24,21 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev
+
       - name: Download dependencies
         run: go mod download
 
       - name: Run tests
         run: go test -v -race -coverprofile=coverage.out ./...
 
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        if: matrix.os == 'ubuntu-latest' && matrix.go == '1.22'
-        with:
-          file: ./coverage.out
-          flags: unittests
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,6 +47,11 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.22'
+
+      - name: Install dependencies (Linux)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev
 
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v4
@@ -58,8 +61,21 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: [test, lint]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            artifact_name: rest-time-reminder-linux-amd64
+            asset_name: rest-time-reminder
+          - os: windows-latest
+            artifact_name: rest-time-reminder-windows-amd64.exe
+            asset_name: rest-time-reminder.exe
+          - os: macos-latest
+            artifact_name: rest-time-reminder-darwin-amd64
+            asset_name: rest-time-reminder
 
     steps:
       - name: Checkout code
@@ -70,15 +86,17 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Build for multiple platforms
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
         run: |
-          GOOS=linux GOARCH=amd64 go build -o build/rest-time-reminder-linux-amd64 ./cmd/reminder
-          GOOS=windows GOARCH=amd64 go build -o build/rest-time-reminder-windows-amd64.exe ./cmd/reminder
-          GOOS=darwin GOARCH=amd64 go build -o build/rest-time-reminder-darwin-amd64 ./cmd/reminder
-          GOOS=darwin GOARCH=arm64 go build -o build/rest-time-reminder-darwin-arm64 ./cmd/reminder
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev
+
+      - name: Build
+        run: go build -o build/${{ matrix.artifact_name }} ./cmd/reminder
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: binaries
-          path: build/
+          name: ${{ matrix.artifact_name }}
+          path: build/${{ matrix.artifact_name }}

@@ -46,13 +46,13 @@ RestTimeReminder is a background service that helps you maintain healthy work ha
 
 ### Pre-built Binaries
 
-Download the latest release from the [Releases](https://github.com/yourusername/rest-time-reminder-go/releases) page.
+Download the latest release from the [Releases](https://github.com/hoangtran1411/rest-time-reminder-go/releases) page.
 
 ### Build from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/rest-time-reminder-go.git
+git clone https://github.com/hoangtran1411/rest-time-reminder-go.git
 cd rest-time-reminder-go
 
 # Build the binary

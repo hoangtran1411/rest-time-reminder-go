@@ -11,7 +11,7 @@ import (
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/speaker"
 	"github.com/faiface/beep/wav"
-	"github.com/yourusername/rest-time-reminder-go/internal/config"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/config"
 )
 
 // Player handles audio playback for reminder notifications.

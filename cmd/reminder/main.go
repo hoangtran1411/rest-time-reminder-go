@@ -12,12 +12,12 @@ import (
 	"syscall"
 
 	"github.com/spf13/cobra"
-	"github.com/yourusername/rest-time-reminder-go/internal/audio"
-	"github.com/yourusername/rest-time-reminder-go/internal/config"
-	"github.com/yourusername/rest-time-reminder-go/internal/notification"
-	"github.com/yourusername/rest-time-reminder-go/internal/scheduler"
-	"github.com/yourusername/rest-time-reminder-go/internal/service"
-	"github.com/yourusername/rest-time-reminder-go/internal/updater"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/audio"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/config"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/notification"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/scheduler"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/service"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/updater"
 )
 
 var (
@@ -28,7 +28,7 @@ var (
 	buildDate = "unknown"
 
 	// Repository for updates
-	repoSlug = "yourusername/rest-time-reminder-go"
+	repoSlug = "hoangtran1411/rest-time-reminder-go"
 
 	// CLI flags
 	cfgFile  string

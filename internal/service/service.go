@@ -7,10 +7,10 @@ import (
 	"log/slog"
 
 	"github.com/kardianos/service"
-	"github.com/yourusername/rest-time-reminder-go/internal/audio"
-	"github.com/yourusername/rest-time-reminder-go/internal/config"
-	"github.com/yourusername/rest-time-reminder-go/internal/notification"
-	"github.com/yourusername/rest-time-reminder-go/internal/scheduler"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/audio"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/config"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/notification"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/scheduler"
 )
 
 // Service wraps the application for running as a system service.

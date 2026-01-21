@@ -6,7 +6,7 @@ import (
 	"log/slog"
 
 	"github.com/gen2brain/beeep"
-	"github.com/yourusername/rest-time-reminder-go/internal/config"
+	"github.com/hoangtran1411/rest-time-reminder-go/internal/config"
 )
 
 // Notifier handles desktop notifications for the reminder.
