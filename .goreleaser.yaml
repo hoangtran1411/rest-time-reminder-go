@@ -1,0 +1,23 @@
+version: 2
+
+builds:
+  - main: ./cmd/reminder
+    binary: rest-time-reminder
+    goos: [linux, windows, darwin]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}}
+
+archives:
+  - format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: 'checksums.txt'
+
+changelog:
+  sort: asc
+  filters:
+    exclude: ['^docs:', '^test:', '^chore:']

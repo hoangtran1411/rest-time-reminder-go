@@ -1,0 +1,46 @@
+# RestTimeReminder Configuration
+# ================================
+
+reminder:
+  # Interval between reminders
+  # Examples: 30m, 1h, 45m, 1h30m
+  interval: 30m
+  
+  # Fixed trigger minutes (optional, overrides interval if set)
+  # Example: [0, 30] triggers at :00 and :30 of each hour
+  # trigger_minutes: [0, 30]
+
+sound:
+  # Enable/disable sound notifications
+  enabled: true
+  
+  # Path to custom sound file
+  # Use bell.wav in project root or provide custom path
+  file: "bell.wav"
+  
+  # Sound volume (0.0 - 1.0)
+  volume: 1.0
+
+notification:
+  # Enable/disable desktop notifications
+  desktop: false
+  
+  # Notification title
+  title: "Break Time!"
+  
+  # Notification message
+  message: "Time to take a short break and rest your eyes."
+
+logging:
+  # Log level: debug, info, warn, error
+  level: info
+  
+  # Log to file (leave empty for stdout only)
+  file: ""
+
+service:
+  # Service display name (Windows)
+  display_name: "Rest Time Reminder"
+  
+  # Service description
+  description: "A background service that reminds you to take regular breaks"
