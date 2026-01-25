@@ -1,6 +1,6 @@
 module github.com/hoangtran1411/rest-time-reminder-go
 
-go 1.24.0
+go 1.25.6
 
 require (
 	github.com/blang/semver v3.5.1+incompatible

@@ -59,10 +59,10 @@ func TestScheduler_shouldTrigger(t *testing.T) {
 			expectedResult: false,
 		},
 		{
-			name:           "Interval 30m - Not Trigger Second != 0",
+			name:           "Interval 30m - Trigger Even If Second != 0",
 			cfg:            config.ReminderConfig{Interval: "30m"},
 			now:            time.Date(2023, 1, 1, 10, 0, 5, 0, time.UTC),
-			expectedResult: false,
+			expectedResult: true,
 		},
 		{
 			name:           "Specific Trigger Minutes - At :00",
@@ -77,10 +77,10 @@ func TestScheduler_shouldTrigger(t *testing.T) {
 			expectedResult: false,
 		},
 		{
-			name:           "Double Trigger check (Played recently)",
+			name:           "Double Trigger check (Same Minute)",
 			cfg:            config.ReminderConfig{Interval: "30m"},
-			now:            time.Date(2023, 1, 1, 10, 0, 0, 0, time.UTC),
-			lastPlay:       time.Date(2023, 1, 1, 10, 0, 0, 0, time.UTC).Add(-10 * time.Second),
+			now:            time.Date(2023, 1, 1, 10, 0, 10, 0, time.UTC),
+			lastPlay:       time.Date(2023, 1, 1, 10, 0, 0, 0, time.UTC),
 			expectedResult: false,
 		},
 	}
