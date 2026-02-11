@@ -56,11 +56,20 @@ install: ## Install the application locally
 
 ## Quality Commands
 
+# Test flags
+# Use -race only if CGO is enabled
+CGO_ENABLED_VAL=$(shell go env CGO_ENABLED)
+ifeq ($(CGO_ENABLED_VAL),1)
+	TEST_FLAGS=-race
+else
+	TEST_FLAGS=
+endif
+
 test: ## Run tests
-	$(GO) test -v -race -cover ./...
+	$(GO) test -v $(TEST_FLAGS) -cover ./...
 
 test-coverage: ## Run tests with coverage report
-	$(GO) test -v -race -coverprofile=coverage.out ./...
+	$(GO) test -v $(TEST_FLAGS) -coverprofile=coverage.out ./...
 	$(GO) tool cover -html=coverage.out -o coverage.html
 
 lint: ## Run linters
