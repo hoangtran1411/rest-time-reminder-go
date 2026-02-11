@@ -33,10 +33,10 @@ RestTimeReminder is a background service that helps you maintain healthy work ha
 | Feature | Description |
 |---------|-------------|
 | 🕐 **Flexible Scheduling** | Configure reminder intervals (default: 30 minutes) |
-| 🔊 **Audio Notifications** | Play custom sound files or use embedded bell sound |
+| 🔊 **Audio Notifications** | Play custom sound files or use embedded bell sound with volume control |
 | 💻 **Multiple Run Modes** | Console, Windows Service, Linux daemon, or System Tray |
 | ⚙️ **Configuration File** | YAML-based configuration for easy customization |
-| 📦 **Single Binary** | No dependencies, easy deployment |
+| 📦 **Standalone Binary** | Fully portable with embedded assets (sound), no dependencies |
 | 🔄 **Graceful Shutdown** | Properly handles system signals |
 | 🖥️ **Desktop Notifications** | Optional desktop notification support |
 
@@ -234,10 +234,11 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Make your changes
-4. Run tests: `go test ./...`
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to the branch: `git push origin feature/amazing-feature`
-7. Open a Pull Request
+4. Run tests: `make test`
+5. Run lint: `make lint` (or `make fix` to auto-fix issues)
+6. Commit your changes: `git commit -m 'Add amazing feature'`
+7. Push to the branch: `git push origin feature/amazing-feature`
+8. Open a Pull Request
 
 ---
 

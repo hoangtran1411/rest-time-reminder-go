@@ -44,9 +44,9 @@ cmd/
 ## 🛠️ Development Workflow
 
 ### Useful Commands (Makefile)
-- `make build`: Build the binary to `build/rest-time-reminder`.
-- `make test`: Run all tests.
+- `make test`: Run all tests (automatically handles `CGO_ENABLED` for race detection).
 - `make lint`: Run golangci-lint.
+- `make fix`: Run golangci-lint with `--fix` to auto-repair style issues.
 - `make run`: Run the application in console mode using `go run`.
 - `make clean`: Remove build artifacts.
 
@@ -59,12 +59,13 @@ Service installation is managed by the application binary:
 
 ### Configuration
 - Default config is in `config.yaml`.
-- Agents should respect the `config.yaml` schema when suggesting changes.
+- Use `config.example.yaml` as the template for new setups.
 
 ## 📂 File Edit Guidelines
 - **Look Before You Leap**: Always check existing implementations in `internal/` before adding new logic.
+- **Audio Logic**: Uses `go:embed` for the default bell sound. Volume control is implemented via `beep/effects`.
+- **Race Safety**: `audio.Player` uses `sync.Once` and `sync.Mutex` to prevent race conditions during initialization and playback.
 - **Atomic Edits**: Use `replace_file_content` or `multi_replace_file_content` for surgical edits.
-- **Single Responsibility**: Keep functions small and focused on one task.
 
 ## 🧠 Brain Dump (Context)
 - The app handles embedded audio (bell.wav) if no custom sound is provided.

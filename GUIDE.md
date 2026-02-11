@@ -22,8 +22,8 @@ The application uses `config.yaml` for its settings. You can copy the `config.ex
 
 ### Audio Settings
 - `enabled`: Set to `true` to hear a bell or custom sound.
-- `file`: Path to a `.wav` file. If left blank, the application uses an internal "bell" sound.
-- `volume`: Control the loudness from `0.0` to `1.0`.
+- `file`: Path to a `.wav` file. If left blank or set to `bell.wav`, the application uses the high-quality **embedded** bell sound (no extra file needed!).
+- `volume`: Control the loudness from `0.0` to `1.0`. The application now supports full volume adjustment.
 
 ### Desktop Notifications
 - `desktop`: Enable/disable system-level pop-up notifications.
