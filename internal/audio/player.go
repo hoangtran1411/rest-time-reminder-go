@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
 
 	"github.com/faiface/beep"
@@ -16,15 +17,16 @@ import (
 
 // Player handles audio playback for reminder notifications.
 type Player struct {
-	config      config.SoundConfig
-	initialized bool
+	config   config.SoundConfig
+	initOnce sync.Once
+	initErr  error
+	mu       sync.Mutex
 }
 
 // NewPlayer creates a new Player instance.
 func NewPlayer(cfg config.SoundConfig) *Player {
 	return &Player{
-		config:      cfg,
-		initialized: false,
+		config: cfg,
 	}
 }
 
@@ -34,6 +36,10 @@ func (p *Player) Play() error {
 		slog.Debug("sound is disabled, skipping playback")
 		return nil
 	}
+
+	// Ensure only one sound plays at a time
+	p.mu.Lock()
+	defer p.mu.Unlock()
 
 	// If no sound file configured, just log it
 	if p.config.File == "" {
@@ -47,12 +53,15 @@ func (p *Player) Play() error {
 	}
 	defer func() { _ = streamer.Close() }()
 
-	// Initialize speaker if not already done
-	if !p.initialized {
+	// Initialize speaker if not already done (thread-safe)
+	p.initOnce.Do(func() {
 		if err := speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10)); err != nil {
-			return fmt.Errorf("failed to initialize speaker: %w", err)
+			p.initErr = fmt.Errorf("failed to initialize speaker: %w", err)
 		}
-		p.initialized = true
+	})
+
+	if p.initErr != nil {
+		return p.initErr
 	}
 
 	// Play the sound

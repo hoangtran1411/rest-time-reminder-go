@@ -17,7 +17,7 @@ GOLINT=golangci-lint
 CMD_DIR=./cmd/reminder
 BUILD_DIR=./build
 
-.PHONY: all build clean test lint fmt help install run dev
+.PHONY: all build clean test lint fix fmt help install run dev
 
 # Default target
 all: clean lint test build
@@ -65,6 +65,9 @@ test-coverage: ## Run tests with coverage report
 
 lint: ## Run linters
 	$(GOLINT) run ./...
+
+fix: ## Run linters and fix auto-fixable issues
+	$(GOLINT) run --fix ./...
 
 fmt: ## Format code
 	$(GOFMT) -s -w .
